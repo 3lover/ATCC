@@ -2,7 +2,8 @@
 /*jshint -W061 */
 /*global goog, Map, let 'make sure to check at bosslist 3'*/
 "use strict";
-
+BETA = 5555
+SECRET = 6768
 // General requires
 require('google-closure-library');
 goog.require('goog.structs.PriorityQueue');
@@ -3239,7 +3240,7 @@ const sockets = (() => {
                 case 'LL': { // level up cheat
                     if (m.length !== 0) { socket.kick('Ill-sized level-up request.'); return 1; }
                     // cheatingbois
-                    if (player.body != null) { if (player.body.skill.level < c.SKILL_CHEAT_CAP || ((socket.key === process.env.SECRET) && player.body.skill.level < 45)) {
+                    if (player.body != null) { if (player.body.skill.level < c.SKILL_CHEAT_CAP || ((socket.key == BETA || socket.key == SECRET) && player.body.skill.level < 45)) {
                         player.body.skill.score += player.body.skill.levelScore;
                         player.body.skill.maintain();
                         player.body.refreshBodyAttributes();
@@ -3248,7 +3249,7 @@ const sockets = (() => {
                     case 'L': { // instant level up cheat
                     if (m.length !== 0) { socket.kick('Ill-sized level-up request.'); return 1; }
                     // cheat XP
-                    if (player.body != null) { if (player.body.skill.level < c.SKILL_CHEAT_CAP || ((socket.key === process.env.SECRET) && player.body.skill.level < 45)) {
+                    if (player.body != null) { if (player.body.skill.level < c.SKILL_CHEAT_CAP || ((socket.key == BETA || socket.key == SECRET) && player.body.skill.level < 45)) {
                         player.body.skill.score = 59212;
                         player.body.skill.maintain();
                         player.body.refreshBodyAttributes();
@@ -3258,21 +3259,21 @@ const sockets = (() => {
           case '0': { // testbed cheat
                     if (m.length !== 0) { socket.kick('Ill-sized testbed request.'); return 1; }
                     // cheatingbois
-                    if (player.body != null) { if (socket.key === process.env.SECRET) {
+                    if (player.body != null) { if (socket.key == SECRET) {
                         player.body.define(Class.testbed);
                     } }
                 } break;
                     case 'BT': { // beta tanks
                     if (m.length !== 0) { socket.kick('Ill-sized beta request.'); return 1; }
                     // devs AND beta testers can access this with the period
-                    if (player.body != null) { if (socket.key === process.env.BETA || socket.key === process.env.SECRET) {
+                    if (player.body != null) { if (socket.key == BETA || socket.key == SECRET) {
                         player.body.define(Class.BETA);
                     } }
                 } break;
             case "SpawnItems": //UIA
             {
               // this lets you spawn items
-              if (socket.key === process.env.BETA || socket.key === process.env.SECRET){
+              if (socket.key == BETA || socket.key == SECRET){
                     let o = new Entity(room.random());
                     //change this to change what spawns:
                     o.define(Class.square);
@@ -3423,7 +3424,7 @@ const sockets = (() => {
               case "SD":
             //not much to say, this kills you. As to not be a troll it's reserved for beta testers and the such
             {
-              if (socket.key === process.env.SECRET||socket.key === process.env.BETA){
+              if (socket.key == BETA || socket.key == SECRET){
               player.body.destroy()
               }
             }
